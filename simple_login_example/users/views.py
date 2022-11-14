@@ -1,25 +1,33 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
+from django.utils.datastructures import MultiValueDictKeyError
+
 # Create your views here.
 
 
 def login(request):
     user_data = {
-        'username': 'jinhyeok',
-        'password': '12345678'
+        'username': 'python',
+        'password': 'django'
     }
 
     if (request.method == 'GET'):
-        username = request.GET['username']
-        if (username != user_data['username']):
-            HttpResponse('유저 아이디가 없습니다.')
+        username = request.GET.get('username')
+        password = request.GET.get('password')
 
-        password = request.GET['password']
+        if username is None:
+            return HttpResponse('유저 아이디를 입력해주세요')
+        if password is None:
+            return HttpResponse('유저 비밀번호를 입력해주세요')
+
+        if (username != user_data['username']):
+            return HttpResponse('유저 아이디가 올바르지 않습니다.')
+
         if (password != user_data['password']):
-            HttpResponse('유저 비밀번호가 올바르지 않습니다.')
+            return HttpResponse('유저 비밀번호가 올바르지 않습니다.')
         
-        return HttpResponse('로그인 성공!')
+        return render(request, 'users/login.html')
     
     return HttpResponse()
 
