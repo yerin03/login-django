@@ -1,8 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from django.utils.datastructures import MultiValueDictKeyError
-
 # Create your views here.
 
 
@@ -13,12 +11,16 @@ def login(request):
     }
 
     if (request.method == 'GET'):
-        username = request.GET.get('username')
-        password = request.GET.get('password')
+        return render(request, 'users/login.html')
 
-        if username is None:
+    if (request.method == 'POST'):
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        # blank 상태일 때는, 유저가 input을 입력하지 않고 제출했을 때 (유저의 실수)
+        if username == '':
             return HttpResponse('유저 아이디를 입력해주세요')
-        if password is None:
+        if password == '':
             return HttpResponse('유저 비밀번호를 입력해주세요')
 
         if (username != user_data['username']):
@@ -27,9 +29,8 @@ def login(request):
         if (password != user_data['password']):
             return HttpResponse('유저 비밀번호가 올바르지 않습니다.')
         
-        return render(request, 'users/login.html')
-    
-    return HttpResponse()
+        return HttpResponse('로그인 성공!')
+
 
 def login_detail(request, id):
     return HttpResponse('user id 는' + str(id) + '입니다.')
