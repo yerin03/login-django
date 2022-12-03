@@ -2,16 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
 <body>
-
-    <h1>Hello world ~!~!~!</h1>
+    <h1>hello world!!</h1>
     {% if is_login %}
-    <p>유저 아이디는 {{ username }}이고</p>
-    <p>비밀번호는 {{password }} 입니다</p>
+    <p>유저 아이디는 {{ username }} 이고</p>
+    <p>비밀번호는 {{ password }} 입니다.</p>
+    <a href="{% url 'users:logout' %}">로그아웃</a>
+    {% else %}
+    <a href="{% url 'users:login' %}">로그인 하러가기</a>
+    <a href="{% url 'users:signup' %}">회원가입 하러가기</a>
     {% endif %}
-    
 </body>
 </html>
